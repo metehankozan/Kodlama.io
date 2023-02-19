@@ -2,7 +2,7 @@ package Kodlama.io.Devs.webApi.controllers;
 
 import Kodlama.io.Devs.business.abstracts.SubTechnologyService;
 import Kodlama.io.Devs.business.requests.CreateSubTechnologyRequest;
-import Kodlama.io.Devs.business.responses.GetAllSubLanguagesResponse;
+import Kodlama.io.Devs.business.responses.GetAllSubTechnologiesResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class SubTechnologyController {
     }
 
     @GetMapping("/getall")
-    public List<GetAllSubLanguagesResponse> getAll() {
+    public List<GetAllSubTechnologiesResponse> getAll() {
         return subTechnologyService.getAll();
     }
 }

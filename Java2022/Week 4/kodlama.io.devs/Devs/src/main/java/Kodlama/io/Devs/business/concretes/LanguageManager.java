@@ -5,6 +5,7 @@ import Kodlama.io.Devs.business.requests.CreateLanguageRequest;
 import Kodlama.io.Devs.business.responses.GetAllLanguagesResponse;
 import Kodlama.io.Devs.dataAccess.abstracts.LanguageRepository;
 import Kodlama.io.Devs.entities.concretes.Language;
+import Kodlama.io.Devs.entities.concretes.SubTechnology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,11 +51,20 @@ public class LanguageManager implements LanguageService {
     @Override
     public List<GetAllLanguagesResponse> getAll() {
         List<GetAllLanguagesResponse> getAllLanguagesResponses = new ArrayList<>();
-        List<Language> languages = languageRepository.findAll();
-        for (Language language : languages) {
+
+        for (Language language : languageRepository.findAll()) {
+            List<String> subTechnologyNames = new ArrayList<>();
+
             GetAllLanguagesResponse languagesResponse = new GetAllLanguagesResponse();
             languagesResponse.setId(language.getId());
             languagesResponse.setName(language.getName());
+
+            for (SubTechnology subTechnology : language.getSubTechnologies()){
+                subTechnologyNames.add(subTechnology.getName());
+            }
+
+            languagesResponse.setSubTechnologyNames(subTechnologyNames);
+
             getAllLanguagesResponses.add(languagesResponse);
         }
         return getAllLanguagesResponses;

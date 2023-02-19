@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateSubTechnologyRequest {
     private String name;
+    private int languageId;
 }

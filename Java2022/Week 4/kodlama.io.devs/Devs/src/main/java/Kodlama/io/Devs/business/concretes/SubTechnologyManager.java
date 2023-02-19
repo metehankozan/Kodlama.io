@@ -2,8 +2,9 @@ package Kodlama.io.Devs.business.concretes;
 
 import Kodlama.io.Devs.business.abstracts.SubTechnologyService;
 import Kodlama.io.Devs.business.requests.CreateSubTechnologyRequest;
-import Kodlama.io.Devs.business.responses.GetAllSubLanguagesResponse;
+import Kodlama.io.Devs.business.responses.GetAllSubTechnologiesResponse;
 import Kodlama.io.Devs.dataAccess.abstracts.SubTechnologyRepository;
+import Kodlama.io.Devs.entities.concretes.Language;
 import Kodlama.io.Devs.entities.concretes.SubTechnology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,10 @@ public class SubTechnologyManager implements SubTechnologyService {
     @Override
     public void add(CreateSubTechnologyRequest createSubTechnologyRequest) {
         SubTechnology subTechnology = new SubTechnology();
+        Language language = new Language();
+        language.setId(createSubTechnologyRequest.getLanguageId());
         subTechnology.setName(createSubTechnologyRequest.getName());
+        subTechnology.setLanguage(language);
         subTechnologyRepository.save(subTechnology);
     }
 
@@ -41,15 +45,15 @@ public class SubTechnologyManager implements SubTechnologyService {
     }
 
     @Override
-    public List<GetAllSubLanguagesResponse> getAll() {
-        List<SubTechnology> subTechnologies = subTechnologyRepository.findAll();
-        List<GetAllSubLanguagesResponse> getAllSubLanguagesResponses = new ArrayList<>();
-        for (SubTechnology subTechnology : subTechnologies) {
-            GetAllSubLanguagesResponse subLanguagesResponse = new GetAllSubLanguagesResponse();
+    public List<GetAllSubTechnologiesResponse> getAll() {
+        List<GetAllSubTechnologiesResponse> getAllSubTechnologiesResponses = new ArrayList<>();
+        for (SubTechnology subTechnology : subTechnologyRepository.findAll()) {
+            GetAllSubTechnologiesResponse subLanguagesResponse = new GetAllSubTechnologiesResponse();
             subLanguagesResponse.setId(subTechnology.getId());
             subLanguagesResponse.setName(subTechnology.getName());
-            getAllSubLanguagesResponses.add(subLanguagesResponse);
+            subLanguagesResponse.setLanguage(subTechnology.getLanguage());
+            getAllSubTechnologiesResponses.add(subLanguagesResponse);
         }
-        return getAllSubLanguagesResponses;
+        return getAllSubTechnologiesResponses;
     }
 }

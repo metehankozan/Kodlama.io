@@ -1,17 +1,19 @@
 package Kodlama.io.Devs.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "languages")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Language implements Comparable<Language> {
+public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,9 +22,8 @@ public class Language implements Comparable<Language> {
     @Column(name = "name")
     private String name;
 
-    @Override
-    public int compareTo(Language o) {
-        return this.getId() - o.getId();
-    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "language", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SubTechnology> subTechnologies;
 
 }

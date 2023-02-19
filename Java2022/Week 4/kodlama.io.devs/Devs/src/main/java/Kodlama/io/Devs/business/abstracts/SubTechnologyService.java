@@ -1,7 +1,7 @@
 package Kodlama.io.Devs.business.abstracts;
 
 import Kodlama.io.Devs.business.requests.CreateSubTechnologyRequest;
-import Kodlama.io.Devs.business.responses.GetAllSubLanguagesResponse;
+import Kodlama.io.Devs.business.responses.GetAllSubTechnologiesResponse;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface SubTechnologyService {
 
     void update(int id, CreateSubTechnologyRequest createSubTechnologyRequest);
 
-    List<GetAllSubLanguagesResponse> getAll();
+    List<GetAllSubTechnologiesResponse> getAll();
 }

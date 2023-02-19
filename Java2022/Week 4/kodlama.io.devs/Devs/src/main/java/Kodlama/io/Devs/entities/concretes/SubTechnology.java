@@ -1,5 +1,6 @@
 package Kodlama.io.Devs.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,10 @@ public class SubTechnology {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "language_id")
+    @JsonManagedReference
+    private Language language;
 
 }

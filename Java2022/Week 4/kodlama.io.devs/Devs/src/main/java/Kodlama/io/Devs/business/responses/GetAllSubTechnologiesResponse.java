@@ -1,5 +1,6 @@
 package Kodlama.io.Devs.business.responses;
 
+import Kodlama.io.Devs.entities.concretes.Language;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class GetAllSubTechnologiesResponse {
     private int id;
     private String name;
-    private String languageName;
+    private Language language;
 }
