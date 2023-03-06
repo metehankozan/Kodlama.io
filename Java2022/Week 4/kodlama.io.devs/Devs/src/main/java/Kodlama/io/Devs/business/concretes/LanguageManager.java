@@ -3,24 +3,22 @@ package Kodlama.io.Devs.business.concretes;
 import Kodlama.io.Devs.business.abstracts.LanguageService;
 import Kodlama.io.Devs.business.requests.CreateLanguageRequest;
 import Kodlama.io.Devs.business.responses.GetAllLanguagesResponse;
+import Kodlama.io.Devs.business.responses.GetByIdLanguageResponse;
+import Kodlama.io.Devs.core.utilities.mappers.ModelMapperService;
 import Kodlama.io.Devs.dataAccess.abstracts.LanguageRepository;
 import Kodlama.io.Devs.entities.concretes.Language;
-import Kodlama.io.Devs.entities.concretes.SubTechnology;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class LanguageManager implements LanguageService {
     private LanguageRepository languageRepository;
-
-    @Autowired
-    public LanguageManager(LanguageRepository languageRepository) {
-        this.languageRepository = languageRepository;
-    }
+    private ModelMapperService modelMapperService;
 
     @Override
     public void add(CreateLanguageRequest createLanguageRequest) throws Exception {
@@ -50,29 +48,17 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public List<GetAllLanguagesResponse> getAll() {
-        List<GetAllLanguagesResponse> getAllLanguagesResponses = new ArrayList<>();
-
-        for (Language language : languageRepository.findAll()) {
-            List<String> subTechnologyNames = new ArrayList<>();
-
-            GetAllLanguagesResponse languagesResponse = new GetAllLanguagesResponse();
-            languagesResponse.setId(language.getId());
-            languagesResponse.setName(language.getName());
-
-            for (SubTechnology subTechnology : language.getSubTechnologies()){
-                subTechnologyNames.add(subTechnology.getName());
-            }
-
-            languagesResponse.setSubTechnologyNames(subTechnologyNames);
-
-            getAllLanguagesResponses.add(languagesResponse);
-        }
-        return getAllLanguagesResponses;
+        List<Language> languages = languageRepository.findAll();
+        List<GetAllLanguagesResponse> languagesResponse = languages.stream()
+                .map(language -> modelMapperService.forResponse().map(language, GetAllLanguagesResponse.class))
+                .collect(Collectors.toList());
+        return languagesResponse;
     }
 
     @Override
-    public Optional<Language> getById(int id) throws Exception {
-        return languageRepository.findById(id);
+    public GetByIdLanguageResponse getById(int id) {
+        Language language = languageRepository.findById(id).orElseThrow(NullPointerException::new);
+        return modelMapperService.forResponse().map(language, GetByIdLanguageResponse.class);
     }
 
     private void nameCheck(CreateLanguageRequest createLanguageRequest) throws Exception {

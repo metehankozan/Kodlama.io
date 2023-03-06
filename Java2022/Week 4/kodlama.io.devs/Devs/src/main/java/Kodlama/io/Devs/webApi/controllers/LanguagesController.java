@@ -3,12 +3,11 @@ package Kodlama.io.Devs.webApi.controllers;
 import Kodlama.io.Devs.business.abstracts.LanguageService;
 import Kodlama.io.Devs.business.requests.CreateLanguageRequest;
 import Kodlama.io.Devs.business.responses.GetAllLanguagesResponse;
-import Kodlama.io.Devs.entities.concretes.Language;
+import Kodlama.io.Devs.business.responses.GetByIdLanguageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/languages")
@@ -26,7 +25,7 @@ public class LanguagesController {
     }
 
     @GetMapping("/getbyid/{id}")
-    public Optional<Language> findById(@PathVariable int id) throws Exception {
+    public GetByIdLanguageResponse findById(@PathVariable int id) throws Exception {
         return languageService.getById(id);
     }
 
